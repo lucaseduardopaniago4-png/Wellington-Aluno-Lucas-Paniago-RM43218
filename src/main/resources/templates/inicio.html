@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Controle de Cursos</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}" class="ativo">Início</a>
+                    <a th:href="@{/cursos}">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina">
+            <section class="hero">
+                <p class="etiqueta">Sistema acadêmico</p>
+                <h1>Controle de Cursos</h1>
+                <p class="descricao">Organize cursos, alunos e matrículas em um só lugar, com controle de vagas em tempo real.</p>
+                <a class="botao-principal" th:href="@{/cursos}">Ver cursos</a>
+            </section>
+
+            <section class="atalhos">
+                <a th:href="@{/cursos}">
+                    <div class="atalho-icone">&#128218;</div>
+                    <h2>Cursos</h2>
+                    <p>Cadastre e acompanhe a oferta de cursos.</p>
+                </a>
+                <a th:href="@{/alunos}">
+                    <div class="atalho-icone">&#127891;</div>
+                    <h2>Alunos</h2>
+                    <p>Gerencie os dados de contato dos alunos.</p>
+                </a>
+                <a th:href="@{/matriculas}">
+                    <div class="atalho-icone">&#128221;</div>
+                    <h2>Matrículas</h2>
+                    <p>Vincule alunos aos cursos disponíveis.</p>
+                </a>
+                <a th:href="@{/relatorios}">
+                    <div class="atalho-icone">&#128202;</div>
+                    <h2>Relatórios</h2>
+                    <p>Acompanhe a ocupação das turmas.</p>
+                </a>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Matriculados do curso</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}" class="ativo">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina">
+            <a class="voltar" th:href="@{/cursos}">&larr; Voltar para cursos</a>
+
+            <header class="cabecalho">
+                <div>
+                    <p class="eyebrow">Alunos do curso</p>
+                    <h1 th:text="${curso.titulo}">Curso</h1>
+                    <p class="subtitulo">Acompanhe as vagas preenchidas e as matrículas realizadas.</p>
+                </div>
+                <a class="botao-novo" th:href="@{/matriculas/nova(cursoId=${curso.id})}">+ Nova matrícula</a>
+            </header>
+
+            <section class="resumo-vagas">
+                <div><span>Vagas</span><strong th:text="${curso.quantidadeVagas}">0</strong></div>
+                <div><span>Matriculados</span><strong th:text="${totalMatriculados}">0</strong></div>
+                <div><span>Disponíveis</span><strong th:text="${curso.quantidadeVagas - totalMatriculados}">0</strong></div>
+            </section>
+
+            <section class="cartao-lista" th:unless="${#lists.isEmpty(matriculas)}">
+                <div class="tabela-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Aluno</th>
+                                <th>E-mail</th>
+                                <th>Data da matrícula</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="matricula : ${matriculas}">
+                                <td class="destaque" th:text="${matricula.aluno.nome}"></td>
+                                <td th:text="${matricula.aluno.email}"></td>
+                                <td th:text="${#temporals.format(matricula.dataMatricula, 'dd/MM/yyyy HH:mm')}"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="vazio" th:if="${#lists.isEmpty(matriculas)}">
+                <h2>Nenhum aluno matriculado</h2>
+                <p>Use o botão acima para adicionar a primeira matrícula.</p>
+            </section>
+        </main>
+    </body>
+</html>

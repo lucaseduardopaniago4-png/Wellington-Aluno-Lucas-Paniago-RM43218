@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Matrículas</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}" class="ativo">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina">
+            <header class="cabecalho">
+                <div>
+                    <p class="eyebrow">Controle de cursos</p>
+                    <h1>Matrículas realizadas</h1>
+                    <p class="subtitulo">Alunos vinculados aos cursos.</p>
+                </div>
+                <a class="botao-novo" th:href="@{/matriculas/nova}">+ Nova matrícula</a>
+            </header>
+
+            <section class="cartao-lista" th:unless="${#lists.isEmpty(matriculas)}">
+                <div class="tabela-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Aluno</th>
+                                <th>Data da matrícula</th>
+                                <th>Status</th>
+                                <th class="coluna-acoes">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="matricula : ${matriculas}">
+                                <td class="destaque" th:text="${matricula.curso.titulo}"></td>
+                                <td th:text="${matricula.aluno.nome}"></td>
+                                <td th:text="${#temporals.format(matricula.dataMatricula, 'dd/MM/yyyy HH:mm')}"></td>
+                                <td>
+                                    <span class="selo"
+                                          th:classappend="${'selo-' + #strings.toLowerCase(matricula.status)}"
+                                          th:text="${#strings.capitalize(#strings.toLowerCase(matricula.status))}"></span>
+                                </td>
+                                <td>
+                                    <div class="acoes-tabela">
+                                        <form th:action="@{/matriculas/excluir/{id}(id=${matricula.id})}" method="get"
+                                              onsubmit="return confirm('Deseja excluir esta matrícula?');">
+                                            <button class="botao-acao excluir" type="submit">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="vazio" th:if="${#lists.isEmpty(matriculas)}">
+                <h2>Nenhuma matrícula cadastrada</h2>
+                <p>Crie a primeira matrícula para vincular alunos aos cursos.</p>
+                <a class="botao-novo" th:href="@{/matriculas/nova}">Nova matrícula</a>
+            </section>
+        </main>
+    </body>
+</html>

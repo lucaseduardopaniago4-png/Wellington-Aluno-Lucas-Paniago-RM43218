@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cursos</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}" class="ativo">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina">
+            <header class="cabecalho">
+                <div>
+                    <p class="eyebrow">Controle de cursos</p>
+                    <h1>Cursos cadastrados</h1>
+                    <p class="subtitulo">Acompanhe a oferta de cursos e as vagas disponíveis.</p>
+                </div>
+                <a class="botao-novo" th:href="@{/cursos/novo}">+ Novo curso</a>
+            </header>
+
+            <div th:if="${erro != null}" class="alerta mensagem-erro" th:text="${erro}"></div>
+
+            <section class="cartao-lista" th:if="${!#lists.isEmpty(cursos)}">
+                <div class="tabela-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Início</th>
+                                <th>Carga horária</th>
+                                <th>Local</th>
+                                <th>Vagas</th>
+                                <th>Status</th>
+                                <th class="coluna-acoes">Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="curso : ${cursos}">
+                                <td class="destaque">
+                                    <span th:text="${curso.titulo}"></span>
+                                    <span class="subtexto" th:text="'Prof. ' + ${curso.instrutor}"></span>
+                                    <span class="subtexto" th:text="${#strings.abbreviate(curso.descricao, 70)}"></span>
+                                </td>
+                                <td>
+                                    <span th:text="${#temporals.format(curso.dataInicio, 'dd/MM/yyyy')}"></span>
+                                    <span class="subtexto" th:text="'às ' + ${#temporals.format(curso.horario, 'HH:mm')}"></span>
+                                </td>
+                                <td th:text="${curso.cargaHoraria} + 'h'"></td>
+                                <td th:text="${curso.local}"></td>
+                                <td><span class="vagas" th:text="${curso.quantidadeVagas}"></span></td>
+                                <td>
+                                    <span class="selo"
+                                          th:classappend="${'selo-' + #strings.toLowerCase(curso.status)}"
+                                          th:text="${curso.status.rotulo}"></span>
+                                </td>
+                                <td>
+                                    <div class="acoes-tabela">
+                                        <form th:action="@{/cursos/editar/{id}(id=${curso.id})}" method="get">
+                                            <button class="botao-acao editar" type="submit">Editar</button>
+                                        </form>
+                                        <form th:action="@{/cursos/{id}/matriculados(id=${curso.id})}" method="get">
+                                            <button class="botao-acao matriculados" type="submit">Matriculados</button>
+                                        </form>
+                                        <form th:action="@{/cursos/excluir/{id}(id=${curso.id})}" method="get"
+                                              onsubmit="return confirm('Deseja realmente excluir este curso?');">
+                                            <button class="botao-acao excluir" type="submit">Excluir</button>
+                                        </form>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="estado-vazio" th:if="${#lists.isEmpty(cursos)}">
+                <h2>Nenhum curso cadastrado</h2>
+                <p>Comece criando o primeiro curso da sua grade.</p>
+                <a class="botao-novo" th:href="@{/cursos/novo}">Cadastrar curso</a>
+            </section>
+        </main>
+    </body>
+</html>

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Nova matrícula</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}" class="ativo">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina pagina-estreita">
+            <section class="cartao-form">
+                <a class="voltar" th:href="@{/matriculas}">&larr; Voltar para matrículas</a>
+                <h1>Nova matrícula</h1>
+                <p class="subtitulo">Vincule um aluno a um curso.</p>
+
+                <div th:if="${erro != null}" class="alerta mensagem-erro" th:text="${erro}"></div>
+
+                <form th:action="@{/matriculas/salvar}" th:object="${matricula}" method="post">
+                    <div class="campo">
+                        <label for="curso">Curso</label>
+                        <select id="curso" th:field="*{curso.id}" required>
+                            <option value="">Selecione um curso</option>
+                            <option th:each="c : ${cursos}"
+                                    th:value="${c.id}"
+                                    th:text="${c.titulo}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="campo">
+                        <label for="aluno">Aluno</label>
+                        <select id="aluno" th:field="*{aluno.id}" required>
+                            <option value="">Selecione um aluno</option>
+                            <option th:each="a : ${alunos}"
+                                    th:value="${a.id}"
+                                    th:text="${a.nome}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="acoes-formulario">
+                        <a class="botao-secundario" th:href="@{/matriculas}">Cancelar</a>
+                        <button type="submit">Salvar matrícula</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

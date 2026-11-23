@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Cadastro de Curso</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}" class="ativo">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina pagina-estreita">
+            <section class="cartao-form">
+                <a class="voltar" th:href="@{/cursos}">&larr; Voltar para cursos</a>
+                <h1 th:text="${curso.id == null ? 'Cadastro de Curso' : 'Editar Curso'}">Cadastro de Curso</h1>
+                <p class="subtitulo">Preencha os dados abaixo para publicar um curso.</p>
+
+                <form th:action="@{/cursos/salvar}" th:object="${curso}" method="post">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="campo">
+                        <label for="titulo">Título</label>
+                        <input id="titulo" type="text" th:field="*{titulo}" placeholder="Ex.: Java para Web">
+                        <span class="erro" th:errors="*{titulo}"></span>
+                    </div>
+
+                    <div class="campo">
+                        <label for="descricao">Descrição</label>
+                        <textarea id="descricao" th:field="*{descricao}" placeholder="Descreva o conteúdo do curso"></textarea>
+                        <span class="erro" th:errors="*{descricao}"></span>
+                    </div>
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="instrutor">Instrutor</label>
+                            <input id="instrutor" type="text" th:field="*{instrutor}" placeholder="Ex.: Maria Oliveira">
+                            <span class="erro" th:errors="*{instrutor}"></span>
+                        </div>
+                        <div class="campo">
+                            <label for="cargaHoraria">Carga horária (horas)</label>
+                            <input id="cargaHoraria" type="number" min="1" th:field="*{cargaHoraria}" placeholder="40">
+                            <span class="erro" th:errors="*{cargaHoraria}"></span>
+                        </div>
+                    </div>
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="dataInicio">Data de início</label>
+                            <input id="dataInicio" type="date" th:field="*{dataInicio}">
+                            <span class="erro" th:errors="*{dataInicio}"></span>
+                        </div>
+                        <div class="campo">
+                            <label for="horario">Horário</label>
+                            <input id="horario" type="time" th:field="*{horario}">
+                            <span class="erro" th:errors="*{horario}"></span>
+                        </div>
+                    </div>
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="local">Local</label>
+                            <input id="local" type="text" th:field="*{local}" placeholder="Ex.: Laboratório 3">
+                            <span class="erro" th:errors="*{local}"></span>
+                        </div>
+                        <div class="campo">
+                            <label for="quantidadeVagas">Quantidade de vagas</label>
+                            <input id="quantidadeVagas" type="number" min="1" th:field="*{quantidadeVagas}" placeholder="0">
+                            <span class="erro" th:errors="*{quantidadeVagas}"></span>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="status">Status</label>
+                        <select id="status" th:field="*{status}">
+                            <option value="ABERTO">Aberto</option>
+                            <option value="ENCERRADO">Encerrado</option>
+                            <option value="CANCELADO">Cancelado</option>
+                        </select>
+                    </div>
+
+                    <div class="acoes-formulario">
+                        <a class="botao-secundario" th:href="@{/cursos}">Cancelar</a>
+                        <button type="submit" th:text="${curso.id == null ? 'Salvar curso' : 'Salvar alterações'}">Salvar curso</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

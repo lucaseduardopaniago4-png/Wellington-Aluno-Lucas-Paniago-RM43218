@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Aluno</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}">Cursos</a>
+                    <a th:href="@{/alunos}" class="ativo">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina pagina-estreita">
+            <section class="cartao-form">
+                <a class="voltar" th:href="@{/alunos}">&larr; Voltar para alunos</a>
+                <h1 th:text="${aluno.id == null ? 'Cadastro de aluno' : 'Editar aluno'}">Cadastro de aluno</h1>
+                <p class="subtitulo">Informe os dados de contato do aluno.</p>
+
+                <form th:action="@{/alunos/salvar}" th:object="${aluno}" method="post">
+                    <input type="hidden" th:field="*{id}">
+
+                    <div class="campo">
+                        <label for="nome">Nome completo</label>
+                        <input id="nome" type="text" th:field="*{nome}" placeholder="Ex.: Ana Souza">
+                        <span class="erro" th:errors="*{nome}"></span>
+                    </div>
+
+                    <div class="linha-campos">
+                        <div class="campo">
+                            <label for="email">E-mail</label>
+                            <input id="email" type="email" th:field="*{email}" placeholder="ana@email.com">
+                            <span class="erro" th:errors="*{email}"></span>
+                        </div>
+                        <div class="campo">
+                            <label for="telefone">Telefone</label>
+                            <input id="telefone" type="tel" th:field="*{telefone}" placeholder="(00) 00000-0000">
+                            <span class="erro" th:errors="*{telefone}"></span>
+                        </div>
+                    </div>
+
+                    <div class="campo">
+                        <label for="cpf">CPF</label>
+                        <input id="cpf" type="text" th:field="*{cpf}" placeholder="000.000.000-00">
+                        <span class="erro" th:errors="*{cpf}"></span>
+                    </div>
+
+                    <div class="acoes-formulario">
+                        <a class="botao-secundario" th:href="@{/alunos}">Cancelar</a>
+                        <button type="submit">Salvar aluno</button>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </body>
+</html>

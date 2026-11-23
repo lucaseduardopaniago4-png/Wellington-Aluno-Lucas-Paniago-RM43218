@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Relatório geral</title>
+        <link rel="stylesheet" th:href="@{/css/style.css}">
+    </head>
+    <body>
+        <header class="topo">
+            <div class="topo-conteudo">
+                <a class="marca" th:href="@{/}"><span class="marca-icone">&#127891;</span>Controle de Cursos</a>
+                <nav class="menu">
+                    <a th:href="@{/}">Início</a>
+                    <a th:href="@{/cursos}">Cursos</a>
+                    <a th:href="@{/alunos}">Alunos</a>
+                    <a th:href="@{/matriculas}">Matrículas</a>
+                    <a th:href="@{/relatorios}" class="ativo">Relatórios</a>
+                </nav>
+            </div>
+        </header>
+
+        <main class="pagina">
+            <header class="cabecalho">
+                <div>
+                    <p class="eyebrow">Controle de cursos</p>
+                    <h1>Relatório geral</h1>
+                    <p class="subtitulo">Visão geral dos cadastros e da ocupação de cada curso.</p>
+                </div>
+            </header>
+
+            <section class="indicadores">
+                <article>
+                    <span>Cursos</span>
+                    <strong th:text="${totalCursos}">0</strong>
+                </article>
+                <article>
+                    <span>Alunos</span>
+                    <strong th:text="${totalAlunos}">0</strong>
+                </article>
+                <article>
+                    <span>Matrículas</span>
+                    <strong th:text="${totalMatriculas}">0</strong>
+                </article>
+            </section>
+
+            <h2 class="titulo-secao">Ocupação por curso</h2>
+
+            <section class="cartao-lista" th:unless="${#lists.isEmpty(ocupacoes)}">
+                <div class="tabela-responsiva">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Curso</th>
+                                <th>Vagas</th>
+                                <th>Matriculados</th>
+                                <th>Disponíveis</th>
+                                <th>Ocupação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="ocupacao : ${ocupacoes}">
+                                <td class="destaque" th:text="${ocupacao.titulo}"></td>
+                                <td th:text="${ocupacao.vagas}"></td>
+                                <td th:text="${ocupacao.matriculados}"></td>
+                                <td th:text="${ocupacao.disponiveis}"></td>
+                                <td>
+                                    <div class="progresso">
+                                        <div class="progresso-trilho">
+                                            <div class="progresso-barra"
+                                                 th:style="'width:' + ${ocupacao.matriculados * 100 / ocupacao.vagas} + '%'"></div>
+                                        </div>
+                                        <span class="progresso-texto" th:text="${ocupacao.matriculados * 100 / ocupacao.vagas} + '%'">0%</span>
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="vazio" th:if="${#lists.isEmpty(ocupacoes)}">
+                <h2>Nenhum curso cadastrado</h2>
+                <p>Cadastre cursos para acompanhar a ocupação aqui.</p>
+                <a class="botao-novo" th:href="@{/cursos/novo}">Cadastrar curso</a>
+            </section>
+        </main>
+    </body>
+</html>
